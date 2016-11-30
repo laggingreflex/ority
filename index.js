@@ -21,10 +21,14 @@ function ority(args, arities, options) {
   const ret = {}
 
   // narrow down by length
-  arities = arities.filter(ar => Object.keys(ar).length === args.length)
+  arities = arities.filter(arity => Object.keys(arity).length === args.length)
 
   let found
   for (const arity of arities) {
+    if (!Object.keys(arity).length) {
+      found = arity
+      break
+    }
     let match = false,
       i = 0
     for (const key in arity) {

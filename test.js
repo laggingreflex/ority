@@ -14,11 +14,12 @@ function fn () {
     flag: 'boolean',
   }, {
     options: 'object',
-  }])
+  }, {}])
 
   return args;
 }
 
+assert.deepEqual(fn(), {})
 assert.deepEqual(fn('a'), {name: 'a'})
 assert.deepEqual(fn(true), {flag: true})
 assert.deepEqual(fn('a', {}), {name: 'a', options: {}})
