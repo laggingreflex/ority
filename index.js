@@ -41,7 +41,8 @@ function ority(args, arities, options) {
       } else if (artType === 'string') {
         match = argType === art
       } else if (artType === 'array') {
-        match = art.concat(['array']).indexOf(argType) > -1
+        let arr = art.length <= 1 ? art.concat(['array']) : art
+        match = arr.concat(['array']).indexOf(argType) > -1
       } else {
         throw new Error('Invalid arity kind: ' + art)
       }
