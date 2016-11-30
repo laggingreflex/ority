@@ -66,6 +66,6 @@ function ority(args, arities, options) {
     return options.onError(closestMatch);
   } else {
     /* Argument signature didn't match with any of the signatures provided */ throw new
-    Error(options.error || 'Invalid argument signature: ' + (args.length ? '[' + args.map(kindOf).join(', ') + ']': 'no arguments provided'));
+    Error(options.error || 'Invalid argument signature: ' + (args.length ? '[' + args.map(kindOf).join(', ') + ']' : 'no arguments provided'));
   }
 }
