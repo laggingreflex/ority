@@ -1,0 +1,65 @@
+const kindOf = require('kind-of')
+
+module.exports = ority
+
+function ority(args, arities, options) {
+  if (!args) throw new Error('Need the arguments')
+  if (!arities) throw new Error('Need the arities')
+
+  arities = kindOf(arities) === 'array' ? arities : [arities]
+  options = options || {}
+
+  if (options.error && kindOf(options.error) !== 'string') {
+    throw new Error('error needs to be a string')
+  }
+  if (options.onError && kindOf(options.onError) !== 'function') {
+    throw new Error('onError needs to be a function')
+  }
+
+  args = [].slice.call(args)
+
+  const ret = {}
+
+  // narrow down by length
+  arities = arities.filter(ar => Object.keys(ar).length === args.length)
+
+  let found
+  for (const arity of arities) {
+    let match = false,
+      i = 0
+    for (const key in arity) {
+      const arg = args[i]
+      const art = arity[key]
+      const argType = kindOf(arg)
+      const artType = kindOf(art)
+      if (artType === 'function') {
+        match = art(arg, argType, kindOf)
+      } else if (artType === 'string') {
+        match = argType === art
+      } else {
+        throw new Error('Invalid arity kind: ' + art)
+      }
+      i++
+    }
+    if (match) {
+      found = arity
+      break
+    }
+  }
+
+  if (found) {
+    const ret = {}
+    let i = 0
+    for (const key in found) {
+      const arg = args[i]
+      ret[key] = arg
+      i++
+    }
+    return ret
+  } else if (options.onError) {
+    return options.onError(closestMatch);
+  } else {
+    /* Argument signature didn't match with any of the signatures provided */ throw new
+    Error(options.error || 'Invalid argument signature: ' + (args.length ? '[' + args.map(kindOf).join(', ') + ']': 'no arguments provided'));
+  }
+}
