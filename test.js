@@ -3,13 +3,13 @@ const assert = require('assert')
 
 function fn () {
   const args = ority(arguments, [{
-    name: 'string',
+    name: ['string', 'array'],
     options: 'object'
   }, {
-    name: 'string',
+    name: ['string', 'array'],
     flag: 'boolean',
   }, {
-    name: 'string',
+    name: ['string'],
   }, {
     flag: 'boolean',
   }, {
@@ -21,6 +21,7 @@ function fn () {
 
 assert.deepEqual(fn(), {})
 assert.deepEqual(fn('a'), {name: 'a'})
+assert.deepEqual(fn(['a']), {name: ['a']})
 assert.deepEqual(fn(true), {flag: true})
 assert.deepEqual(fn('a', {}), {name: 'a', options: {}})
 assert.deepEqual(fn('a', true), {name: 'a', flag: true})
