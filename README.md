@@ -21,6 +21,9 @@ function fn () {
     flag: 'boolean',
   }, {
     options: 'object',
+  }, {
+    multi: ['array', 'object'],
+    syntax : ['array|object'],
   }])
 
   console.log(args)

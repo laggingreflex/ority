@@ -6,7 +6,7 @@ function fn () {
     name: ['string', 'array'],
     options: 'object'
   }, {
-    name: ['string', 'array'],
+    name: ['string|array'],
     flag: 'boolean',
   }, {
     name: ['string'],
