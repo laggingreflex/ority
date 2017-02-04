@@ -22,8 +22,10 @@ function fn () {
   }, {
     options: 'object',
   }, {
+    // array of objects
+    multi : 'array|object',
+    multi: ['object'],
     multi: ['array', 'object'],
-    syntax : ['array|object'],
   }])
 
   console.log(args)

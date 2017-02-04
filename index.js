@@ -34,8 +34,8 @@ function ority(args, arities, options) {
     for (const key in arity) {
       const arg = args[i]
       let art = arity[key]
-      if (typeof art === 'string') {
-        art = art.split('|');
+      if (typeof art === 'string' && art.indexOf('|') > 0) {
+        art = art.split(/\|/g);
       }
       const argType = kindOf(arg)
       const artType = kindOf(art)
