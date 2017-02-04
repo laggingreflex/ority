@@ -29,8 +29,8 @@ function ority(args, arities, options) {
       found = arity
       break
     }
-    let match = false,
-      i = 0
+    let match
+    let i = 0
     for (const key in arity) {
       const arg = args[i]
       let art = arity[key]
@@ -40,12 +40,27 @@ function ority(args, arities, options) {
       const argType = kindOf(arg)
       const artType = kindOf(art)
       if (artType === 'function') {
-        match = art(arg, argType, kindOf)
+        let argMatch = art(arg, argType, kindOf);
+        if (match === undefined) {
+          match = argMatch
+        } else {
+          match = match && argMatch
+        }
       } else if (artType === 'string') {
-        match = argType === art
+        let argMatch = argType === art;
+        if (match === undefined) {
+          match = argMatch
+        } else {
+          match = match && argMatch
+        }
       } else if (artType === 'array') {
         let arr = art.length <= 1 ? art.concat(['array']) : art
-        match = arr.concat(['array']).indexOf(argType) > -1
+        let argMatch = arr.concat(['array']).indexOf(argType) > -1;
+        if (match === undefined) {
+          match = argMatch
+        } else {
+          match = match && argMatch
+        }
       } else {
         throw new Error('Invalid arity kind: ' + art)
       }
