@@ -4,7 +4,7 @@
   "description": "Object based arity",
   "main": "index.js",
   "scripts": {
-    "test": "node test"
+    "test": "mocha"
   },
   "repository": "laggingreflex/ority",
   "license": "ISC",
