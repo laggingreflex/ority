@@ -18,6 +18,15 @@ function ority(args, arities, options) {
 
   args = [].slice.call(args)
 
+  // remove extraneous args
+  for (let i = args.length - 1; i >= 0; i--) {
+    if (typeof args[i] === 'undefined') {
+      args.pop();
+    } else {
+      break;
+    }
+  }
+
   const ret = {}
 
   // narrow down by length
@@ -84,7 +93,8 @@ function ority(args, arities, options) {
   } else if (options.onError) {
     return options.onError(closestMatch);
   } else {
-    /* Argument signature didn't match with any of the signatures provided */ throw new
+    /* Argument signature didn't match with any of the signatures provided */
+    throw new
     Error(options.error || 'Invalid argument signature: ' + (args.length ? '[' + args.map(kindOf).join(', ') + ']' : 'no arguments provided'));
   }
 }
