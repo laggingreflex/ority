@@ -48,6 +48,9 @@ fn('a', true)
 
 fn({ json: true })
 // => { options: { json: true }, flag: false }
+
+fn(1)
+// => Error: Invalid argument signature. Received [number]. Expected [string, object] [string, boolean] [string] [boolean] [object]
 ```
 
 ### API
