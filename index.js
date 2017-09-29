@@ -17,6 +17,7 @@ function ority(args, arities, options) {
   if (options.onError && kindOf(options.onError) !== 'function') {
     throw new Error('onError needs to be a function')
   }
+  options.defaults = options.defaults || {};
 
   args = [].slice.call(args)
 
@@ -90,6 +91,11 @@ function ority(args, arities, options) {
       const arg = args[i]
       ret[key] = arg
       i++
+    }
+    for (const key in options.defaults) {
+      if (!(key in ret)) {
+        ret[key] = options.defaults[key]
+      }
     }
     return ret
   } else if (options.onError) {
