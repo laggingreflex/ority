@@ -34,10 +34,10 @@ function ority(args, arities, options) {
   // narrow down by length
   arities = arities.filter(arity => Object.keys(arity).length === args.length)
 
-  let found;
+  let found, closestMatch;
   for (const arity of arities) {
     if (!Object.keys(arity).length) {
-      found = arity
+      found = closestMatch = arity
       break
     }
     let match
@@ -78,7 +78,7 @@ function ority(args, arities, options) {
       i++
     }
     if (match) {
-      found = arity
+      found = closestMatch = arity
       break
     }
   }
