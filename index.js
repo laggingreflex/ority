@@ -32,7 +32,7 @@ function ority(args, arities, options) {
   // narrow down by length
   arities = arities.filter(arity => Object.keys(arity).length === args.length)
 
-  let found
+  let found, expected = '[';
   for (const arity of arities) {
     if (!Object.keys(arity).length) {
       found = arity
@@ -43,6 +43,7 @@ function ority(args, arities, options) {
     for (const key in arity) {
       const arg = args[i]
       let art = arity[key]
+      expected += art + ', ';
       if (typeof art === 'string' && art.indexOf('|') > 0) {
         art = art.split(/\|/g);
       }
@@ -75,11 +76,13 @@ function ority(args, arities, options) {
       }
       i++
     }
+    expected = expected.substr(0, expected.length - 2) + '] [';
     if (match) {
       found = arity
       break
     }
   }
+  expected = expected.substr(0, expected.length - 3) + ']';
 
   if (found) {
     const ret = {}
@@ -93,8 +96,12 @@ function ority(args, arities, options) {
   } else if (options.onError) {
     return options.onError(closestMatch);
   } else {
-    /* Argument signature didn't match with any of the signatures provided */
-    throw new
-    Error(options.error || 'Invalid argument signature: ' + (args.length ? '[' + args.map(kindOf).join(', ') + ']' : 'no arguments provided'));
+    const received = args.length
+      ? '[' + args.map(kindOf).join(', ') + ']'
+      : 'no arguments provided';
+    throw new Error(options.error || ('Invalid argument signature'
+      + '. Received ' + received
+      + '. Expected ' + expected
+    ));
   }
 }
