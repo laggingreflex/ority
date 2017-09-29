@@ -5,6 +5,15 @@ Object based arity
 
 Lets you specify arity with an array of objects of name-type pairs:
 
+
+## Install
+
+```sh
+npm install ority
+```
+
+## Usage
+
 ```js
 const ority = require('ority')
 
@@ -21,27 +30,42 @@ function fn () {
     flag: 'boolean',
   }, {
     options: 'object',
-  }, {
-    // array of objects
-    multi : 'array|object',
-    multi: ['object'],
-    multi: ['array', 'object'],
-  }])
+  }], {
+    defaults: {
+      flag: false
+    }
+  })
 
   console.log(args)
 }
 ```
 ```js
 fn('a')
-// => { name: 'a' }
+// => { name: 'a', flag: false }
 
 fn('a', true)
 // => { name: 'a', flag: true }
 
 fn({ json: true })
-// => { options: { json: true } }
+// => { options: { json: true }, flag: false }
 ```
 
-Uses [kind-of] to perform type comparison. You may also specify a function (instead of a string) which is called with the arg to check.
+### API
+
+```js
+ority(args, arities, options)
+```
+
+* **`args`** `[arguments]` Arguments from the calling function.
+* **`arities`** `[array]` Array of object based arities.
+* **`options`** `[object]`
+
+  * **`error`** `[Error|string]` Custom Error to be thrown instead of the default one.
+  * **`onError`** `[function]` Custom error handler whose return value gets bubbled up returned to parent caller
+  * **`defaults`** `[object]` Default object whose properties are used to set properties not matched/found in the arguments.
+
+## Libraries used
+
+* **[kind-of]**: to perform type comparisons.
 
 [kind-of]: https://www.npmjs.com/package/kind-of
